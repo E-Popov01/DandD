@@ -1,28 +1,65 @@
 class Dungeon:
-  def __init__(self, name, danger_lvl, recommended_min_lvl, loot_qual):
+  def __init__(self, name, difficulty, recommended_min_lvl, loot_qual):
     self.name = name
-    self.danger = danger_lvl
+    self.difficulty = difficulty
     self.recommended = recommended_min_lvl
     self.loot = loot_qual
 
   def __repr__(self):
-    return "This Dungeon is called {name} and will have enemies of Level {danger_lvl} and therefore a minimum Level recommendation of Level {minimum}. The loot quality is {quality}.".format(name = self.name, danger_lvl=self.danger, minimum=self.recommended, quality=self.loot)
+    return "This Dungeon is called {name} and will have enemies of Level {difficulty} and therefore a minimum Level recommendation of Level {minimum}. The loot quality is {quality}.".format(name = self.name, difficulty=self.difficulty, minimum=self.recommended, quality=self.loot)
 
 class Hero:
-  def __init__(self, name, lvl, hero_type, magic = False,  friendly = True):
+  def __init__(self, name, lvl, hero_type, magic,  friendly):
     self.name = name
     self.lvl = lvl
     self.type = hero_type
     self.magic = magic
     self.friendly = friendly
+
     self.hp = self.lvl * 30
+    self.strength = 0
+    self.dexterity = 0
+    self.constitution = 0
+    self.intelligence = 0
+    self.wisdom = 0
+    self.charisma = 0
+
+    if self.type == "Warrior" or self.type == "Fighter":
+      self.strength = 16
+      self.dexterity = 9
+      self.constitution = 15
+      self.intelligence = 13
+      self.wisdom = 11
+      self.charisma = 14
+    elif self.type == "Mage" or self.type == "Sorcerer":
+      self.strength = 10
+      self.dexterity = 16
+      self.constitution = 12
+      self.intelligence = 16
+      self.wisdom = 13
+      self.charisma = 8
+    elif self.type == "Rogue" or self.type == "Thief":
+      self.strength = 8
+      self.dexterity = 16
+      self.constitution = 10
+      self.intelligence = 13
+      self.wisdom = 12
+      self.charisma = 16
+    elif self.type == "Cleric" or self.type == "Priest":
+      self.strength = 16
+      self.dexterity = 8
+      self.constitution = 13
+      self.intelligence = 10
+      self.wisdom = 16
+      self.charisma = 12
 
   def __repr__(self):
-    description = "This hero is {name} and of Level {lvl} and is a {typ}. ".format(name=self.name, lvl=self.lvl, typ=self.type)
+    description = "This level {lvl} hero is {name} and he/she is a {typ}. ".format(name=self.name, lvl=self.lvl, typ=self.type)
     if self.friendly is True:
       description += "This hero is of a friendly kind."
     else:
-      description += "This hero is of a marcarbre kind."
+      description += "This hero is of a macabre kind."
+    description += " \n This hero's starting stats are: HP: {hp}, \n Strength: {str}, \n Dexterity: {dex}, \n Constitution: {con}, \n Intelligence: {int}, \n Wisdom: {wis}, \n Charisma: {cha}.".format(hp=self.hp, str=self.strength, dex=self.dexterity, con=self.constitution, int=self.intelligence, wis=self.wisdom, cha=self.charisma)
     return description
 
   def attack(self, opponent):
@@ -86,47 +123,35 @@ class Dragon:
     else:
       return "This {typ} dragon is ferral and knows only to survive. This means to kill anything at all times!".format(typ=self.type)
 
-icy_hole = Dungeon("Icy Hole", 1, 1, 1)
-pirate_island = Dungeon("Pirate Island", 2, 1, 2)
+def create_hero():
+  name = input("What is the name of the hero? ")
+  lvl = 1
+  hero_type = input("What is the type of the hero? You can choose between: Warrior, Mage, Rogue and Cleric. ")
+  if hero_type == "Mage" or hero_type == "Sorcerer" or hero_type == "Cleric" or hero_type == "Priest":
+    magic = True
+  else:
+    magic = False
+  
+  friendly = input("Is this hero friendly? (yes/no) ")
+  if friendly.lower() == "yes" or friendly.lower() == "y":
+    friendly = True
+  elif friendly.lower() == "no" or friendly.lower() == "n":
+    friendly = False
 
-ilphalir_the_wise = Hero("Ilphalir the Wise", 2, "Mage", True, False)
-wummwumm = Hero("Wumm Wumm", 2, "Brute")
+  return Hero(name, lvl, hero_type, magic, friendly)
 
-fire_dragon = Dragon("Fire", 1)
-dragon_of_wisdom = Dragon("Etheral", 100, False)
-"""
-print(fire_dragon)
-print(dragon_of_wisdom)
+def create_dungeon():
+  name = input("What is the name of the dungeon? ")
+  danger_lvl = int(input("What is the danger level of the dungeon? "))
+  recommended_min_lvl = int(input("What is the recommended minimum level for this dungeon? "))
+  loot_qual = input("What is the loot quality of this dungeon? ")
+  return Dungeon(name, danger_lvl, recommended_min_lvl, loot_qual)
 
-print(icy_hole)
-print(pirate_island)
-
-print(wlphalir_the_wise)
-print(wummwumm)
-"""
-"""
-damage_fireD = Dragon.attack(fire_dragon, ilphalir_the_wise)
-print(damage_fireD)
-damage_ethD = Dragon.attack(dragon_of_wisdom, wummwumm)
-print(damage_ethD)
-
-damage_il = Hero.attack(ilphalir_the_wise, fire_dragon)
-print(damage_il)
-damage_wummwumm = Hero.attack(wummwumm, dragon_of_wisdom)
-print(damage_wummwumm)
-"""
-"""
-healing_w = Hero.healing_friend(ilphalir_the_wise, wummwumm)
-print(healing_w)
-healing_self = Hero.healing_self(ilphalir_the_wise)
-print(healing_self)
-fail_heal_s = Hero.healing_self(wummwumm)
-fail_heal_f = Hero.healing_friend(wummwumm, ilphalir_the_wise)
-print(fail_heal_s)
-print(fail_heal_f)
-"""
-
-speaking1 = Dragon.speak(dragon_of_wisdom)
-speaking2 = Dragon.speak(fire_dragon)
-print(speaking1)
-print(speaking2)
+test_hero = Hero("Ismael the Mighty", 5, "Warrior", True, True) #For testing purposes
+print(test_hero)
+test_dragon = Dragon("Fire", 10, True) #For testing purposes
+print(test_dragon)
+test_dungeon = Dungeon("The Cave of Doom", 5, 3, "Legendary") #For testing purposes
+print(test_dungeon)
+hero1 = create_hero()
+print(hero1)
