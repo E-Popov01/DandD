@@ -1,3 +1,5 @@
+import random
+
 class Dungeon:
   def __init__(self, name, difficulty, recommended_min_lvl, loot_qual):
     self.name = name
@@ -147,6 +149,30 @@ def create_dungeon():
   loot_qual = input("What is the loot quality of this dungeon? ")
   return Dungeon(name, danger_lvl, recommended_min_lvl, loot_qual)
 
+"""def generate_situation():
+  situations = [
+    "You enter a dark cave and hear eerie sounds echoing through the tunnels.",
+    "A mysterious figure approaches you in the forest, cloaked in shadows.",
+    "You find an ancient map that leads to a hidden treasure buried deep underground.",
+    "A sudden storm forces you to seek shelter in an abandoned castle.",
+    "You stumble upon a village plagued by a strange curse that turns people into stone."
+  ]
+  return random.choice(situations)
+
+def roll_dice(sides=20):
+  return random.randint(1, sides)
+
+def process_response(action: str, roll: int, skill_level: int, opponent, damage: int):
+  if roll >= 20 - skill_level:
+        return f"🎯 Kritischer Erfolg! Deine Aktion '{action}' gelingt perfekt!" and opponent.hp -= damage * 2
+    elif roll >= 15 - skill_level:
+        return f"✅ Erfolg! Du führst '{action}' mit ordentlichem Ergebnis aus." and opponent.hp -= damage
+    elif roll >= 10 - skill_level:
+        return f"⚠️ Teilerfolg. '{action}' klappt nur teilweise – es läuft nicht ganz rund."
+    else:
+        return f"❌ Misserfolg. Deine Aktion '{action}' scheitert völlig." and self.hp -= damage
+        """
+
 test_hero = Hero("Ismael the Mighty", 5, "Warrior", True, True) #For testing purposes
 print(test_hero)
 test_dragon = Dragon("Fire", 10, True) #For testing purposes
@@ -155,3 +181,17 @@ test_dungeon = Dungeon("The Cave of Doom", 5, 3, "Legendary") #For testing purpo
 print(test_dungeon)
 hero1 = create_hero()
 print(hero1)
+
+"""
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+bot = ChatBot('DungeonMaster')
+trainer = ChatterBotCorpusTrainer(bot)
+trainer.train('chatterbot.corpus.german')
+
+while True:
+    frage = input("Du: ")
+    antwort = bot.get_response(frage)
+    print(f"Bot: {antwort}")
+"""
