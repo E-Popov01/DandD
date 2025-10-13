@@ -1,3 +1,5 @@
+import random
+
 class Dungeon:
   def __init__(self, name, difficulty, recommended_min_lvl, loot_qual):
     self.name = name
@@ -147,10 +149,17 @@ def create_dungeon():
   loot_qual = input("What is the loot quality of this dungeon? ")
   return Dungeon(name, danger_lvl, recommended_min_lvl, loot_qual)
 
+def roll_dice(sides = 20):
+  return random.randint(1, sides)
+
 test_hero = Hero("Ismael the Mighty", 5, "Warrior", True, True) #For testing purposes
 print(test_hero)
+test_hero_dice = Hero.roll_dice(20) #For testing purposes
+print("The hero rolled a dice and got a {roll}.".format(roll=test_hero_dice))
 test_dragon = Dragon("Fire", 10, True) #For testing purposes
 print(test_dragon)
+test_dragon_dice = Dragon.roll_dice(20) #For testing purposes
+print("The dragon rolled a dice and got a {roll}.".format(roll=test_dragon_dice))
 test_dungeon = Dungeon("The Cave of Doom", 5, 3, "Legendary") #For testing purposes
 print(test_dungeon)
 hero1 = create_hero()
