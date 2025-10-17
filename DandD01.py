@@ -110,15 +110,7 @@ class Dragon:
     else:
       description += "This dragon is friendly. Rather rare, so behave yourself."
     return description
-
-  def attack(self, opponent):
-    damage = self.lvl * -10
-    if self.danger is True:
-      opponent.hp += damage
-      return "This {typ} dragon has done {dmg} damage to our brave lord and savior {hero}! Our hero now only has {hp} left.".format(typ=self.type, dmg=-damage, hero=opponent.name, hp=opponent.hp)
-    else:
-      return "This {typ} dragon only attacks in self defense.".format(typ=self.type)
-    
+  
   def speak(self):
     if self.danger is False:
       return "This {typ} dragon decided to spread his wisdom to the mere mortals that call themselves heros. For they do not know the way of their faults and neither do they desire to acquire about it themselves.".format(typ=self.type)
@@ -145,22 +137,47 @@ def create_hero():
 def create_dungeon():
   name = input("What is the name of the dungeon? ")
   danger_lvl = int(input("What is the danger level of the dungeon? "))
-  recommended_min_lvl = int(input("What is the recommended minimum level for this dungeon? "))
-  loot_qual = input("What is the loot quality of this dungeon? ")
-  return Dungeon(name, danger_lvl, recommended_min_lvl, loot_qual)
+  return Dungeon(name, danger_lvl)
 
 def roll_dice(sides = 20):
-  return random.randint(1, sides)
+  rolling = True
+  if input("If you wisch to roll a dice press enter, otherwise type 'no' to cancel: ").lower() in ['no', 'n']:
+    print("Dice roll cancelled.")
+    return rolling = False
+  elif input("If you wish to roll a dice press enter, otherwise type 'no' to cancel: ").lower() not in ['', 'yes', 'y']:
+    input("Invalid input. Please press enter to roll a dice or type 'no' to cancel: ").lower()
+  else:
+    rolling = True
+  
+  if rolling is True:
+    dice_roll = random.randint(1, sides)
+    print("You rolled a {roll} on a {sides}-sided dice.".format(roll=dice_roll, sides=sides))
+    return dice_roll
+  else:
+    print("Dice roll cancelled. This game cannot continue without a dice roll. Please restart the program.")
+
+def attack(self, opponent, dice):
+  damage = round(dice * (self.strength / 20))
+  if self.danger is True:
+    opponent.hp -= damage
+    return "This {typ} has done {dmg} damage to our {opponent}! {opponent} now only has {hp} left.".format(typ=self.type, dmg=-damage, opponent=opponent.name, hp=opponent.hp)
+  else:
+    return "This {typ} dragon only attacks in self defense.".format(typ=self.type)
 
 test_hero = Hero("Ismael the Mighty", 5, "Warrior", True, True) #For testing purposes
 print(test_hero)
+
 test_hero_dice = Hero.roll_dice(20) #For testing purposes
 print("The hero rolled a dice and got a {roll}.".format(roll=test_hero_dice))
+
 test_dragon = Dragon("Fire", 10, True) #For testing purposes
 print(test_dragon)
+
 test_dragon_dice = Dragon.roll_dice(20) #For testing purposes
 print("The dragon rolled a dice and got a {roll}.".format(roll=test_dragon_dice))
+
 test_dungeon = Dungeon("The Cave of Doom", 5, 3, "Legendary") #For testing purposes
 print(test_dungeon)
+
 hero1 = create_hero()
 print(hero1)
